@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  user:
+    image: melidob/user:latest
+    build: ./services/user
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=postgres://user:password@postgres:5432/users
+
+  content:
+    image: melidob/content:latest
+    build: ./services/content
+    ports:
+      - "3002:3002"
+
+  interaction:
+    image: melidob/interaction:latest
+    build: ./services/interaction
+    ports:
+      - "3003:3003"
+
+  cache:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  frontend:
+    image: melidob/meme-humor-frontend:latest
+    build: ./frontend
+    ports:
+      - "80:80"
