@@ -1,32 +1,36 @@
-version: '3.8'
 services:
-  user:
-    image: melidob/user:latest
-    build: ./services/user
+  user-service:
+    image: melidob/user-service:latest
+    build: ./services/user-service
     ports:
       - "3001:3001"
     environment:
       - DATABASE_URL=postgres://user:password@postgres:5432/users
+    restart: always
 
-  content:
-    image: melidob/content:latest
-    build: ./services/content
+  content-service:
+    image: melidob/content-service:latest
+    build: ./services/content-service
     ports:
       - "3002:3002"
+    restart: always
 
-  interaction:
-    image: melidob/interaction:latest
-    build: ./services/interaction
+  interaction-service:
+    image: melidob/interaction-service:latest
+    build: ./services/interaction-service
     ports:
       - "3003:3003"
+    restart: always
 
   cache:
     image: redis:latest
     ports:
       - "6379:6379"
+    restart: always
 
   frontend:
     image: melidob/meme-humor-frontend:latest
     build: ./frontend
     ports:
       - "80:80"
+    restart: always
