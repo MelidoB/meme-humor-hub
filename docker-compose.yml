@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   user-service:
     image: melidob/user-service:latest
@@ -5,7 +7,10 @@ services:
     ports:
       - "3001:3001"
     environment:
-      - DATABASE_URL=postgres://user:password@postgres:5432/users
+      - DATABASE_URL=sqlite:///data/database.db
+      - PORT=3001
+    volumes:
+      - user-service-data:/app/data  # Named volume for SQLite database
     restart: always
 
   content-service:
@@ -13,6 +18,8 @@ services:
     build: ./services/content-service
     ports:
       - "3002:3002"
+    volumes:
+      - content-service-data:/app/data  # Named volume for SQLite database
     restart: always
 
   interaction-service:
@@ -34,3 +41,7 @@ services:
     ports:
       - "80:80"
     restart: always
+
+volumes:
+  user-service-data:
+  content-service-data:
